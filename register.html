@@ -28,7 +28,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999; /* High z-index to be on top of everything */
+            z-homepage: 9999; /* High z-homepage to be on top of everything */
             backdrop-filter: blur(5px); /* Optional: adds a blur effect */
             transition: opacity 0.3s ease-in-out; /* Smooth fade in/out */
             opacity: 1; /* Default to visible for transition, hidden by JS */
@@ -194,12 +194,13 @@
                 // Reset the form (important for when the user might navigate back or refresh)
                 registerForm.reset();
 
-                // Redirect to index.html after another short delay, replacing history state
+                // Redirect to homepage.html after another short delay, replacing history state
                 setTimeout(() => {
-                    window.location.replace('index.html'); // Use replace() to prevent back button
+                    window.location.replace('homepage.html'); // Use replace() to prevent back button
                 }, 3000); // 3000 milliseconds = 3 seconds after success message appears
             }, 2000); // Simulate 2 seconds of loading
         });
     </script>
 </body>
 </html>
+
