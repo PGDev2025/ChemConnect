@@ -937,7 +937,7 @@
                 console.error(`Error: Success message div with ID '${successMessageDivId}' not found.`);
                 return;
             }
-            if (!scriptUrl || scriptUrl === scriptURLs.requestForm || scriptUrl === scriptURLs.supplyForm || scriptUrl === scriptURLs.contactForm) {
+            if (!scriptUrl) {
                 console.error(`Error: Google Apps Script URL for '${formId}' is not set or is a placeholder.`);
                 successDiv.textContent = "Error: Script URL not configured!";
                 successDiv.classList.remove('hidden');
