@@ -34,6 +34,23 @@
         .transition-all {
             transition: all 0.3s ease;
         }
+        /* Custom styles for active filter buttons */
+        .search-filter.active-chemical {
+            background-color: #3b82f6; /* blue-600 */
+            color: white;
+        }
+        .search-filter.active-equipment {
+            background-color: #10b981; /* green-600 */
+            color: white;
+        }
+        .search-filter.active-glassware {
+            background-color: #9333ea; /* purple-600 */
+            color: white;
+        }
+        .search-filter.active-other {
+            background-color: #eab308; /* yellow-600 */
+            color: white;
+        }
     </style>
 </head>
 <body class="font-sans molecule-pattern">
@@ -83,7 +100,7 @@
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0">
                     <h1 class="text-4xl md:text-5xl font-bold mb-6">Connecting Colleges Through Chemistry</h1>
-                    <p class="text-xl mb-8">A platform for colleges to exchange surplus chemicals and share equipment at nominal costs, fostering collaboration and reducing waste.</p>
+                    <p class="text-xl mb-8">A platform for colleges to exchange surplus chemicals and equipment at nominal costs, fostering collaboration and reducing waste.</p>
                     <div class="flex space-x-4">
                         <a href="#request" class="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-medium transition-all">Request Items</a>
                         <a href="#supply" class="bg-transparent border-2 border-white hover:bg-white hover:text-blue-600 px-6 py-3 rounded-lg font-medium transition-all">Supply Items</a>
@@ -425,8 +442,8 @@
                 </div>
                 
                 <div id="searchResults" class="space-y-6">
-                    <!-- Sample results - these would be populated by JavaScript in a real implementation -->
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                    <!-- Static Sample results -->
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200" data-item-type="chemical" data-supplier="HBTU Kanpur">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-800">Sodium Hydroxide (NaOH) - 5kg</h3>
@@ -443,7 +460,7 @@
                         </div>
                         <a href="supplier_contact.html?supplier=HBTU Kanpur&item=Sodium Hydroxide (NaOH) - 5kg" class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Contact Supplier</a>
                     </div>
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200" data-item-type="equipment" data-supplier="IIT Kanpur">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-800">UV-Vis Spectrophotometer</h3>
@@ -460,7 +477,7 @@
                         </div>
                         <a href="supplier_contact.html?supplier=IIT Kanpur&item=UV-Vis Spectrophotometer" class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Contact Supplier</a>
                     </div>
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200" data-item-type="glassware" data-supplier="PSIT Kanpur">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-800">Glassware Set</h3>
@@ -477,8 +494,7 @@
                         </div>
                         <a href="supplier_contact.html?supplier=PSIT Kanpur&item=Glassware Set" class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Contact Supplier</a>
                     </div>
-                    </div>
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200" data-item-type="equipment" data-supplier="IIT Kanpur">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                             <div>
                                 <h3 class="text-xl font-bold text-gray-800">Transmission Electron Microscope</h3>
@@ -497,13 +513,13 @@
                         </div>
                         <a href="supplier_contact.html?supplier=IIT Kanpur&item=Transmission Electron Microscope" class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Contact Supplier</a>
                     </div>
-                    <div id="dynamicItemsContainer" class="mt-6">
+                    <div id="dynamicItemsContainer" class="space-y-6">
                         <!-- Dynamically added supply items will appear here -->
                     </div>
                 </div>
                 
                 <div class="mt-8 text-center">
-                    <button class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all">
+                    <button id="loadMoreButton" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all">
                         Load More Results
                     </button>
                 </div>
@@ -933,14 +949,30 @@
             // Get form values
             const collegeName = document.getElementById('supplyCollegeName').value;
             const contactPerson = document.getElementById('supplyContactPerson').value;
+            const email = document.getElementById('supplyEmail').value; // Get email
+            const phone = document.getElementById('supplyPhone').value; // Get phone
             const itemType = document.getElementById('supplyItemType').value;
             const itemDetails = document.getElementById('supplyItemDetails').value;
             const price = document.getElementById('supplyPrice').value || "FREE";
             const location = document.getElementById('supplyLocation').value;
 
+            // Store new supplier data in localStorage
+            let storedSuppliers = JSON.parse(localStorage.getItem('dynamicSuppliers')) || {};
+            storedSuppliers[collegeName] = {
+                name: collegeName,
+                contactPerson: contactPerson,
+                email: email,
+                phone: phone,
+                address: location // Using location as address for simplicity
+            };
+            localStorage.setItem('dynamicSuppliers', JSON.stringify(storedSuppliers));
+
+
             // Create new item element
             const newItem = document.createElement('div');
             newItem.className = 'bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200 mt-6';
+            newItem.setAttribute('data-item-type', itemType); // Add data attribute for filtering
+            newItem.setAttribute('data-supplier', collegeName); // Add data attribute for supplier
             newItem.innerHTML = `
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div>
@@ -956,7 +988,7 @@
                     <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">${itemType.charAt(0).toUpperCase() + itemType.slice(1)}</span>
                     <span class="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full">Available</span>
                 </div>
-                <button class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Request Item</button>
+                <a href="supplier_contact.html?supplier=${encodeURIComponent(collegeName)}&item=${encodeURIComponent(itemDetails)}" class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Contact Supplier</a>
             `;
 
             // Add to the dynamic items container
@@ -970,6 +1002,8 @@
             
             // Reset form
             this.reset();
+            // Re-run search to include the new item in the visible list if filters match
+            performSearch();
         });
 
         document.getElementById('contactForm').addEventListener('submit', function(e) {
@@ -982,19 +1016,109 @@
             return false;
         });
 
-        // Search functionality (mock for demo)
-        document.getElementById('searchButton').addEventListener('click', function() {
-            const query = document.getElementById('searchInput').value;
-            if (query.trim() !== '') {
-                alert('In a real implementation, this would search for: ' + query);
+        // --- Search Functionality ---
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const searchResultsContainer = document.getElementById('searchResults'); // This is the parent of all item divs
+        const filterButtons = document.querySelectorAll('.search-filter');
+        const loadMoreButton = document.getElementById('loadMoreButton');
+
+        // Function to perform search and filter
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            let selectedType = null;
+
+            // Determine the active filter type
+            filterButtons.forEach(button => {
+                if (button.classList.contains('active-chemical') ||
+                    button.classList.contains('active-equipment') ||
+                    button.classList.contains('active-glassware') ||
+                    button.classList.contains('active-other')) {
+                    selectedType = button.getAttribute('data-type');
+                }
+            });
+
+            // Iterate over all direct children of searchResultsContainer (static items + dynamicItemsContainer)
+            // and then over children of dynamicItemsContainer
+            const allItems = Array.from(searchResultsContainer.children).flatMap(child => {
+                if (child.id === 'dynamicItemsContainer') {
+                    return Array.from(child.children);
+                }
+                return [child];
+            }).filter(item => item.nodeType === 1); // Ensure it's an element node
+
+            allItems.forEach(item => {
+                const itemText = item.textContent.toLowerCase();
+                const itemType = item.getAttribute('data-item-type');
+
+                const matchesQuery = itemText.includes(query);
+                const matchesType = selectedType ? (itemType === selectedType) : true;
+
+                if (matchesQuery && matchesType) {
+                    item.style.display = ''; // Show the item
+                } else {
+                    item.style.display = 'none'; // Hide the item
+                }
+            });
+        }
+
+        // Event Listeners for Search Bar
+        searchButton.addEventListener('click', performSearch);
+        searchInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
             }
+            // Also perform search on every key stroke for live filtering
+            performSearch();
         });
 
-        document.querySelectorAll('.search-filter').forEach(button => {
+        // Event Listeners for Filter Buttons
+        filterButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const type = this.getAttribute('data-type');
-                alert('Filtering by: ' + type);
+                let isActive = false;
+
+                // Check if this button is already active
+                if (this.classList.contains(`active-${type}`)) {
+                    isActive = true;
+                }
+
+                // Remove all active classes from all filter buttons
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active-chemical', 'active-equipment', 'active-glassware', 'active-other');
+                    // Reset to default Tailwind colors
+                    const btnType = btn.getAttribute('data-type');
+                    if (btnType === 'chemical') btn.classList.replace('bg-blue-600', 'bg-blue-100');
+                    else if (btnType === 'equipment') btn.classList.replace('bg-green-600', 'bg-green-100');
+                    else if (btnType === 'glassware') btn.classList.replace('bg-purple-600', 'bg-purple-100');
+                    else if (btnType === 'other') btn.classList.replace('bg-yellow-600', 'bg-yellow-100');
+                    btn.classList.remove('text-white');
+                    if (btnType === 'chemical') btn.classList.add('text-blue-700');
+                    else if (btnType === 'equipment') btn.classList.add('text-green-700');
+                    else if (btnType === 'glassware') btn.classList.add('text-purple-700');
+                    else if (btnType === 'other') btn.classList.add('text-yellow-700');
+                });
+
+                // If the button was not active, make it active
+                if (!isActive) {
+                    this.classList.add(`active-${type}`);
+                    // Apply specific active color
+                    if (type === 'chemical') this.classList.replace('bg-blue-100', 'bg-blue-600');
+                    else if (type === 'equipment') this.classList.replace('bg-green-100', 'bg-green-600');
+                    else if (type === 'glassware') this.classList.replace('bg-purple-100', 'bg-purple-600');
+                    else if (type === 'other') this.classList.replace('bg-yellow-100', 'bg-yellow-600');
+                    this.classList.add('text-white');
+                }
+
+                performSearch(); // Re-run search with new filter state
             });
+        });
+
+        // Load More Results (mock functionality)
+        loadMoreButton.addEventListener('click', function() {
+            alert('In a real application, more results would be loaded from a server.');
+            // For demonstration, you could add more static items here or generate them
+            // For now, it just alerts.
         });
 
         // Smooth scrolling for anchor links
@@ -1019,6 +1143,10 @@
                 }
             });
         });
+
+        // Initial search to ensure all items are visible by default
+        performSearch();
+
     </script>
 </body>
 </html>
