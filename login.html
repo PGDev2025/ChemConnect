@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemConnect - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            margin: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 2rem 2rem 1rem;
+            background: white;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #4285f4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .login-section {
+            padding: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            color: #6c757d;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fff;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #4285f4;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 1rem;
+        }
+        
+        .btn:hover {
+            background: #3367d6;
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            margin-bottom: 0;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .message {
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #dee2e6;
+            z-index: 1;
+        }
+        
+        .divider span {
+            background: white;
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .forgot-password {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .forgot-password a {
+            color: #4285f4;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                margin: 1rem;
+                border-radius: 8px;
+            }
+            
+            .login-section {
+                padding: 1.5rem;
+            }
+            
+            .header {
+                padding: 1.5rem 1.5rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🧪</div>
+                <h1>ChemConnect</h1>
+            </div>
+        </div>
+        
+        <div class="login-section">
+            <h2 class="section-title">Welcome Back</h2>
+            <p class="section-subtitle">Sign in to your ChemConnect account</p>
+            
+            <div id="loginMessage"></div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn">Sign In</button>
+            </form>
+            
+            <div class="forgot-password">
+                <a href="#">Forgot your password?</a>
+            </div>
+            
+            <div class="divider">
+                <span>Don't have an account?</span>
+            </div>
+            
+            <button class="btn btn-secondary" onclick="goToRegister()">Register Your College</button>
+        </div>
+    </div>
+
+    <script>
+        // User database stored in localStorage
+        let users = JSON.parse(localStorage.getItem('chemconnect_users') || '[]');
+        
+        // Check if user is logged in on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            initializeDemoUsers();
+        });
+        
+        function checkLoginStatus() {
+            const currentUser = localStorage.getItem('chemconnect_current_user');
+            if (currentUser) {
+                // User is already logged in, redirect to homepage
+                window.location.href = 'homepage.html';
+            }
+        }
+        
+        function goToRegister() {
+            // Redirect to register page
+            window.location.href = 'register.html';
+        }
+        
+        function showMessage(text, type) {
+            const messageElement = document.getElementById('loginMessage');
+            messageElement.innerHTML = `<div class="message ${type}">${text}</div>`;
+            
+            // Auto-hide success messages after 3 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageElement.innerHTML = '';
+                }, 3000);
+            }
+        }
+        
+        // Handle Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showMessage('Please fill in all fields', 'error');
+                return;
+            }
+            
+            // Refresh users from localStorage in case they were updated
+            users = JSON.parse(localStorage.getItem('chemconnect_users') || '[]');
+            
+            // Find user
+            const user = users.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+            
+            if (user) {
+                // Store current user session
+                localStorage.setItem('chemconnect_current_user', JSON.stringify(user));
+                showMessage('Login successful! Redirecting to dashboard...', 'success');
+                
+                // Redirect to homepage after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = 'homepage.html';
+                }, 1500);
+            } else {
+                showMessage('Invalid email or password. Please try again.', 'error');
+            }
+        });
+        
+        // Initialize demo users if none exist
+        function initializeDemoUsers() {
+            if (users.length === 0) {
+                const sampleUsers = [
+                    {
+                        id: 1,
+                        collegeName: "Indian Institute of Technology Delhi",
+                        collegeAddress: "Hauz Khas, New Delhi, Delhi 110016",
+                        contactPerson: "Dr. Sarah Johnson",
+                        designation: "Head of Chemistry Department",
+                        email: "chemistry@iitd.ac.in",
+                        phoneNumber: "+91-9876543210",
+                        universityAffiliation: "IIT Delhi (Institute of National Importance)",
+                        password: "demo123",
+                        additionalInfo: "Leading research institute with state-of-the-art chemistry labs",
+                        verified: true,
+                        registeredAt: new Date().toISOString()
+                    },
+                    {
+                        id: 2,
+                        collegeName: "Delhi University - Chemistry Department",
+                        collegeAddress: "North Campus, Delhi University, Delhi 110007",
+                        contactPerson: "Prof. Michael Chen",
+                        designation: "Department Coordinator",
+                        email: "chem@du.ac.in",
+                        phoneNumber: "+91-9876543211",
+                        universityAffiliation: "University of Delhi",
+                        password: "demo456",
+                        additionalInfo: "One of India's premier universities with excellent chemistry facilities",
+                        verified: false,
+                        registeredAt: new Date().toISOString()
+                    },
+                    {
+                        id: 3,
+                        collegeName: "Jamia Millia Islamia",
+                        collegeAddress: "Jamia Nagar, New Delhi, Delhi 110025",
+                        contactPerson: "Dr. Priya Sharma",
+                        designation: "Assistant Professor",
+                        email: "chem@jmi.ac.in",
+                        phoneNumber: "+91-9876543212",
+                        universityAffiliation: "Jamia Millia Islamia (Central University)",
+                        password: "demo789",
+                        additionalInfo: "Central university with modern chemistry laboratories",
+                        verified: true,
+                        registeredAt: new Date().toISOString()
+                    }
+                ];
+                
+                localStorage.setItem('chemconnect_users', JSON.stringify(sampleUsers));
+                users = sampleUsers;
+                console.log('Demo users initialized');
+            }
+        }
+        
+        // Utility function to check if user is logged in (can be called from other pages)
+        function isUserLoggedIn() {
+            return localStorage.getItem('chemconnect_current_user') !== null;
+        }
+        
+        // Utility function to get current user (can be called from other pages)
+        function getCurrentUser() {
+            const user = localStorage.getItem('chemconnect_current_user');
+            return user ? JSON.parse(user) : null;
+        }
+        
+        // Utility function to logout (can be called from other pages)
+        function logout() {
+            localStorage.removeItem('chemconnect_current_user');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

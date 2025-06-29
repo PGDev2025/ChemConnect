@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChemConnect - Register Your College</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 2rem 2rem 1rem;
+            background: white;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #4285f4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .register-section {
+            padding: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .section-subtitle {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            flex: 1;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group.full-width {
+            flex: 1 1 100%;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #495057;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fff;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4285f4;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            font-weight: normal;
+        }
+        
+        .checkbox-group a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+        
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-bottom: 1rem;
+        }
+        
+        .btn:hover {
+            background: #3367d6;
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+        }
+        
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        
+        .message {
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .back-to-login {
+            text-align: center;
+            margin-top: 1rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .back-to-login a {
+            color: #4285f4;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-to-login a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                margin: 1rem;
+                border-radius: 8px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .register-section {
+                padding: 1.5rem;
+            }
+            
+            .header {
+                padding: 1.5rem 1.5rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">🧪</div>
+                <h1>ChemConnect</h1>
+            </div>
+        </div>
+        
+        <div class="register-section">
+            <h2 class="section-title">Register Your College</h2>
+            <p class="section-subtitle">Join ChemConnect to start exchanging chemicals and equipment.</p>
+            
+            <div id="registerMessage"></div>
+            
+            <form id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="collegeName">College Name</label>
+                        <input type="text" id="collegeName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="collegeAddress">College Address</label>
+                        <input type="text" id="collegeAddress" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contactPerson">Contact Person (Head of Dept. or Admin)</label>
+                        <input type="text" id="contactPerson" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="designation">Designation</label>
+                        <input type="text" id="designation" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="collegeEmail">Official College Email</label>
+                        <input type="email" id="collegeEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number</label>
+                        <input type="tel" id="phoneNumber" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="universityAffiliation">University Affiliation / Accreditation Body</label>
+                    <input type="text" id="universityAffiliation" placeholder="e.g., UGC, AICTE, State University Name" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additionalInfo">Additional Information (Optional)</label>
+                    <textarea id="additionalInfo" placeholder="Any other details relevant to your college's registration."></textarea>
+                </div>
+                
+                <div class="checkbox-group">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <label for="agreeTerms">
+                        I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>, and understand that my college's details will be verified.
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn">Register College</button>
+                <button type="button" class="btn btn-secondary" onclick="goToLogin()">Back to Login</button>
+            </form>
+            
+            <div class="back-to-login">
+                Already have an account? <a href="#" onclick="goToLogin()">Sign in here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+        });
+        
+        function checkLoginStatus() {
+            const currentUser = localStorage.getItem('chemconnect_current_user');
+            if (currentUser) {
+                // User is already logged in, redirect to homepage
+                window.location.href = 'homepage.html';
+            }
+        }
+        
+        function goToLogin() {
+            window.location.href = 'login.html';
+        }
+        
+        function showMessage(text, type) {
+            const messageElement = document.getElementById('registerMessage');
+            messageElement.innerHTML = `<div class="message ${type}">${text}</div>`;
+            
+            // Auto-hide success messages after 5 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageElement.innerHTML = '';
+                }, 5000);
+            }
+        }
+        
+        // Handle Registration
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                collegeName: document.getElementById('collegeName').value.trim(),
+                collegeAddress: document.getElementById('collegeAddress').value.trim(),
+                contactPerson: document.getElementById('contactPerson').value.trim(),
+                designation: document.getElementById('designation').value.trim(),
+                email: document.getElementById('collegeEmail').value.trim(),
+                phoneNumber: document.getElementById('phoneNumber').value.trim(),
+                universityAffiliation: document.getElementById('universityAffiliation').value.trim(),
+                password: document.getElementById('password').value,
+                confirmPassword: document.getElementById('confirmPassword').value,
+                additionalInfo: document.getElementById('additionalInfo').value.trim()
+            };
+            
+            // Validation
+            if (!document.getElementById('agreeTerms').checked) {
+                showMessage('Please agree to the Terms of Service and Privacy Policy.', 'error');
+                return;
+            }
+            
+            if (formData.password !== formData.confirmPassword) {
+                showMessage('Passwords do not match!', 'error');
+                return;
+            }
+            
+            if (formData.password.length < 6) {
+                showMessage('Password must be at least 6 characters long!', 'error');
+                return;
+            }
+            
+            // Get existing users
+            let users = JSON.parse(localStorage.getItem('chemconnect_users') || '[]');
+            
+            // Check if user already exists
+            if (users.find(u => u.email.toLowerCase() === formData.email.toLowerCase())) {
+                showMessage('A college with this email is already registered!', 'error');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                collegeName: formData.collegeName,
+                collegeAddress: formData.collegeAddress,
+                contactPerson: formData.contactPerson,
+                designation: formData.designation,
+                email: formData.email,
+                phoneNumber: formData.phoneNumber,
+                universityAffiliation: formData.universityAffiliation,
+                password: formData.password,
+                additionalInfo: formData.additionalInfo,
+                verified: Math.random() > 0.3, // 70% chance of being verified for demo
+                registeredAt: new Date().toISOString()
+            };
+            
+            // Add to users array and save to localStorage
+            users.push(newUser);
+            localStorage.setItem('chemconnect_users', JSON.stringify(users));
+            
+            showMessage('Registration successful! We have received your details and will begin the verification process. You will be notified via email once your college is verified. You can now login with your credentials.', 'success');
+            
+            // Clear form
+            document.getElementById('registerForm').reset();
+            
+            // Redirect to login after 4 seconds
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 4000);
+        });
+        
+        // Add some basic form validation on input
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            
+            if (confirmPassword && password !== confirmPassword) {
+                this.style.borderColor = '#dc3545';
+            } else {
+                this.style.borderColor = '#ced4da';
+            }
+        });
+        
+        document.getElementById('collegeEmail').addEventListener('input', function() {
+            const email = this.value.trim();
+            const users = JSON.parse(localStorage.getItem('chemconnect_users') || '[]');
+            
+            if (email && users.find(u => u.email.toLowerCase() === email.toLowerCase())) {
+                this.style.borderColor = '#dc3545';
+                showMessage('This email is already registered!', 'error');
+            } else {
+                this.style.borderColor = '#ced4da';
+                document.getElementById('registerMessage').innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>
