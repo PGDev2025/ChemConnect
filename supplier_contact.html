@@ -46,8 +46,8 @@
     </div>
 
     <script>
-        // Sample supplier data (in a real application, this would come from a database)
-        const suppliers = {
+        // Predefined supplier data
+        const predefinedSuppliers = {
             "HBTU Kanpur": {
                 name: "HBTU Kanpur",
                 contactPerson: "Dr. Alok Sharma",
@@ -76,7 +76,19 @@
             const supplierName = urlParams.get('supplier');
             const item = urlParams.get('item');
 
-            const supplierInfo = suppliers[supplierName];
+            let supplierInfo = null;
+
+            // First, check predefined suppliers
+            if (predefinedSuppliers[supplierName]) {
+                supplierInfo = predefinedSuppliers[supplierName];
+            } else {
+                // If not found in predefined, check localStorage for dynamically added suppliers
+                const storedSuppliers = JSON.parse(localStorage.getItem('dynamicSuppliers')) || {};
+                if (storedSuppliers[supplierName]) {
+                    supplierInfo = storedSuppliers[supplierName];
+                }
+            }
+            
             const supplierDetailsDiv = document.getElementById('supplierDetails');
 
             if (supplierInfo) {
