@@ -273,7 +273,7 @@
                     </div>
                     
                     <div class="flex items-center">
-                        <input id="termsAgreement" name="termsAgreement" type="checkbox" 
+                        <input id="termsAgreement" name="termsAgreement" type="checkbox" required 
                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
                         <label for="termsAgreement" class="ml-2 block text-sm text-gray-700">
                             I agree to the <a href="#" class="text-blue-600 hover:underline">Terms of Service</a> and understand that this is a request that will be matched with potential suppliers.
@@ -367,7 +367,7 @@
                     </div>
                     
                     <div class="flex items-center">
-                        <input id="supplyTermsAgreement" name="termsAgreement" type="checkbox" 
+                        <input id="supplyTermsAgreement" name="termsAgreement" type="checkbox" required 
                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
                         <label for="supplyTermsAgreement" class="ml-2 block text-sm text-gray-700">
                             I agree to the <a href="#" class="text-blue-600 hover:underline">Terms of Service</a> and confirm that all listed items are in good condition and properly labeled.
@@ -473,25 +473,6 @@
                         </div>
                         <div class="mt-4 flex flex-wrap gap-2">
                             <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">Glassware</span>
-                            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-full">Used</span>
-                        </div>
-                        <button class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Contact Supplier</button>
-                    </div>
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200">
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800">Transmission Electron Microscope</h3>
-                                <p class="text-gray-600">Used in material science,in nanotechnology.Prices due to operational charges on a weekly basis</p>
-                            </div>
-                            <div class="mt-2 md:mt-0 text-right">
-                                <span class="text-lg font-bold text-green-600">₹12000 per week</span>
-                                <p class="text-sm text-gray-500">IIT Kanpur</p>
-                            </div>
-                        </div>
-                        <div class="mt-4 flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-red-100 text-red-700 text-sm rounded-full">Sharing</span>
-                            <span class="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full">Weekly Basis</span>
-                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">Equipment</span>
                             <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-full">Used</span>
                         </div>
                         <button class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Contact Supplier</button>
@@ -909,145 +890,77 @@
             });
         });
 
-        // --- NEW GOOGLE SHEET INTEGRATION CODE ---
+        // Form submissions (mock functionality for demo)
+        // Request form submission handling
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success message
+            document.getElementById('requestSuccess').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('requestSuccess').classList.add('hidden');
+            }, 5000);
+            
+            // Reset form
+            this.reset();
+        });
 
-        // IMPORTANT: Replace these with your actual Google Apps Script Web App URLs
-        const scriptURLs = {
-            requestForm: "https://script.google.com/macros/s/AKfycbyeUVbkWogz3ulq70gDUEqFoi2BoTDJXEHbz5S91AH-upcXiV30aSnoyor5bRlVwbvEzg/exec", // e.g., "https://script.google.com/macros/s/AKfycbz_YOUR_REQUEST_ID/exec"
-            supplyForm: "https://script.google.com/macros/s/AKfycbz_vueRaRXnYj6s-mqnbTQcPUB6g1Re9gNmqHSmmTTkgE0N8g2RBCfk_9ru3ADoQm6J/exec",   // e.g., "https://script.google.com/macros/s/AKfycbz_YOUR_SUPPLY_ID/exec"
-            contactForm: "https://script.google.com/macros/s/AKfycbybi8PhZ4Un9dHTVA7WZrOPj7IwZEd8BrlGTA8wYml4UiLFs_ds1keUvn8XBhsysnA5/exec"  // e.g., "https://script.google.com/macros/s/AKfycbz_YOUR_CONTACT_ID/exec"
-        };
+        // JavaScript for handling supply form submission
+        // Supply form submission handling
+        document.getElementById('supplyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const collegeName = document.getElementById('supplyCollegeName').value;
+            const contactPerson = document.getElementById('supplyContactPerson').value;
+            const itemType = document.getElementById('supplyItemType').value;
+            const itemDetails = document.getElementById('supplyItemDetails').value;
+            const price = document.getElementById('supplyPrice').value || "FREE";
+            const location = document.getElementById('supplyLocation').value;
 
-        /**
-         * Handles form submission, sending data to a Google Apps Script Web App.
-         * @param {string} formId The ID of the HTML form.
-         * @param {string} scriptUrl The URL of the deployed Google Apps Script Web App.
-         * @param {string} successMessageDivId The ID of the div to show success messages.
-         * @param {function} [additionalSuccessCallback] Optional: A function to run on successful submission (e.g., for dynamic items).
-         */
-        async function handleFormSubmission(formId, scriptUrl, successMessageDivId, additionalSuccessCallback = null) {
-            const form = document.getElementById(formId);
-            const successDiv = document.getElementById(successMessageDivId);
-
-            if (!form) {
-                console.error(`Error: Form with ID '${formId}' not found.`);
-                return;
-            }
-            if (!successDiv) {
-                console.error(`Error: Success message div with ID '${successMessageDivId}' not found.`);
-                return;
-            }
-            if (!scriptUrl) {
-                console.error(`Error: Google Apps Script URL for '${formId}' is not set or is a placeholder.`);
-                successDiv.textContent = "Error: Script URL not configured!";
-                successDiv.classList.remove('hidden');
-                return;
-            }
-
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault(); // Prevent default form submission (page refresh)
-
-                // Basic client-side validation (if 'required' attribute is used)
-                if (!form.checkValidity()) {
-                    // If form is invalid, the browser will show its default validation messages.
-                    // We can optionally add a custom message here.
-                    alert('Please fill in all required fields correctly.');
-                    return;
-                }
-
-                const formData = new FormData(form);
-
-                // Convert FormData to URL-encoded string for Google Apps Script (e.parameter)
-                const urlEncodedData = new URLSearchParams(formData).toString();
-
-                try {
-                    const response = await fetch(scriptUrl, {
-                        method: 'POST',
-                        body: urlEncodedData,
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        }
-                    });
-
-                    const result = await response.json(); // Apps Script returns JSON
-
-                    if (result.success) {
-                        successDiv.classList.remove('hidden');
-                        form.reset(); // Clear the form fields
-
-                        // Run additional callback if provided (e.g., for supply form's dynamic item display)
-                        if (additionalSuccessCallback) {
-                            additionalSuccessCallback(formData);
-                        }
-
-                        setTimeout(() => {
-                            successDiv.classList.add('hidden');
-                        }, 5000);
-                    } else {
-                        console.error('Apps Script returned an error:', result);
-                        successDiv.textContent = '❌ Submission failed. Please try again.';
-                        successDiv.classList.remove('hidden');
-                        setTimeout(() => { successDiv.classList.add('hidden'); }, 5000);
-                    }
-                } catch (error) {
-                    console.error('Network or script error:', error);
-                    successDiv.textContent = '⚠️ Failed to submit. Check your internet connection or script configuration.';
-                    successDiv.classList.remove('hidden');
-                    setTimeout(() => { successDiv.classList.add('hidden'); }, 5000);
-                }
-            });
-        }
-
-        // Initialize form submissions for Google Sheets
-        handleFormSubmission(
-            'requestForm',
-            scriptURLs.requestForm,
-            'requestSuccess'
-        );
-
-        // Special handling for Supply Form to also add to dynamic items
-        handleFormSubmission(
-            'supplyForm',
-            scriptURLs.supplyForm,
-            'supplySuccess',
-            function(formData) { // This is the additionalSuccessCallback
-                const collegeName = formData.get('collegeName');
-                const itemType = formData.get('itemType');
-                const itemDetails = formData.get('itemDetails');
-                const price = formData.get('price') || "FREE";
-                const location = formData.get('location');
-
-                const newItem = document.createElement('div');
-                newItem.className = 'bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200 mt-6';
-                newItem.innerHTML = `
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-                        <div>
-                            <h3 class="text-xl font-bold text-gray-800">${itemDetails}</h3>
-                            <p class="text-gray-600">${itemType.charAt(0).toUpperCase() + itemType.slice(1)} in ${location}</p>
-                        </div>
-                        <div class="mt-2 md:mt-0 text-right">
-                            <span class="text-lg font-bold ${price === 'FREE' ? 'text-green-600' : 'text-green-600'}">${price === 'FREE' ? 'FREE' : '₹'+price}</span>
-                            <p class="text-sm text-gray-500">${collegeName}</p>
-                        </div>
+            // Create new item element
+            const newItem = document.createElement('div');
+            newItem.className = 'bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200 mt-6';
+            newItem.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800">${itemDetails}</h3>
+                        <p class="text-gray-600">${itemType.charAt(0).toUpperCase() + itemType.slice(1)} in ${location}</p>
                     </div>
-                    <div class="mt-4 flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">${itemType.charAt(0).toUpperCase() + itemType.slice(1)}</span>
-                        <span class="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full">Available</span>
+                    <div class="mt-2 md:mt-0 text-right">
+                        <span class="text-lg font-bold ${price === 'FREE' ? 'text-green-600' : 'text-green-600'}">${price === 'FREE' ? 'FREE' : '₹'+price}</span>
+                        <p class="text-sm text-gray-500">${collegeName}</p>
                     </div>
-                    <button class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Request Item</button>
-                `;
-                document.getElementById('dynamicItemsContainer').prepend(newItem);
-            }
-        );
+                </div>
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">${itemType.charAt(0).toUpperCase() + itemType.slice(1)}</span>
+                    <span class="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full">Available</span>
+                </div>
+                <button class="mt-4 text-blue-600 hover:text-blue-800 font-medium">Request Item</button>
+            `;
 
-        handleFormSubmission(
-            'contactForm',
-            scriptURLs.contactForm,
-            'contactSuccess'
-        );
+            // Add to the dynamic items container
+            document.getElementById('dynamicItemsContainer').prepend(newItem);
+            
+            // Show success message
+            document.getElementById('supplySuccess').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('supplySuccess').classList.add('hidden');
+            }, 5000);
+            
+            // Reset form
+            this.reset();
+        });
 
-        // --- END NEW GOOGLE SHEET INTEGRATION CODE ---
-
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('contactSuccess').classList.remove('hidden');
+            this.reset();
+            setTimeout(() => {
+                document.getElementById('contactSuccess').classList.add('hidden');
+            }, 5000);
+            return false;
+        });
 
         // Search functionality (mock for demo)
         document.getElementById('searchButton').addEventListener('click', function() {
